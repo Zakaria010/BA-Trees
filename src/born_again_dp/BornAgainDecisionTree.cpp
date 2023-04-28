@@ -244,6 +244,35 @@ void BornAgainDecisionTree::buildOptimal()
 	collectResultDP(0, (int)fspaceFinal.nbCells - 1, finalObjective, 0);
 }
 
+void BornAgainDecisionTree::buildOptimal(Region * r)
+{
+	iterationsDP = 0;
+	regionsMemorizedDP = 0;
+	finalSplits = 0;
+	finalLeaves = 0;
+	finalDepth = 0;
+
+	// Initialize the cells structures and keep useful hyperplanes
+	fspaceOriginal.initializeCells(r->getLocalHyperplanes(randomForest->getHyperplanes()),false);
+	fspaceFinal.initializeCells(fspaceOriginal.exportUsefulHyperplanes(),true);
+	
+	// Initialize the memory to store the DP results on the regions
+	regions = std::vector<std::vector<unsigned int>>(fspaceFinal.nbCells);
+	for (int index = 0; index < fspaceFinal.nbCells; index++)
+		regions[index] = std::vector<unsigned int>(fspaceFinal.keyToHash(index,fspaceFinal.nbCells-1)+1,UINT_MAX);
+
+	// Launch DP algorithm
+	// std::cout << "----- START OF OPTIMIZATION " << std::endl;
+	if (params->objectiveFunction == 0)      finalObjective = dynamicProgrammingOptimizeDepth(0, (int)fspaceFinal.nbCells - 1);
+	else if (params->objectiveFunction == 1) finalObjective = dynamicProgrammingOptimizeNbSplits(0, (int)fspaceFinal.nbCells - 1);
+	else if (params->objectiveFunction == 2) finalObjective = dynamicProgrammingOptimizeDepthThenNbSplits(0, (int)fspaceFinal.nbCells - 1);
+	else throw std::string("NON RECOGNIZED OBJECTIVE");
+
+	// Collect the final solution
+	collectResultDP(0, (int)fspaceFinal.nbCells - 1, finalObjective, 0);
+}
+
+
 void BornAgainDecisionTree::displayRunStatistics()
 {
 	std::vector<std::string> objectives = {"Depth","NbLeaves","Depth then NbLeaves","NbLeaves then Depth","Heuristic"};

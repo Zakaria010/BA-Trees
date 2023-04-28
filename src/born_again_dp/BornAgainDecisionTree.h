@@ -92,6 +92,8 @@ public:
     // Main procedure: Building the reborn decision tree (using an exact algorithm) -- the result is guaranteed to have the smallest size and to be faithful
     void buildOptimal();
 
+	void buildOptimal(Region region);
+
 	// Main procedure: Building the reborn decision tree (using an heuristic based on data manufacturing + an oracle) -- the result is still guaranteed to be faithful
 	void buildHeuristic();
 
