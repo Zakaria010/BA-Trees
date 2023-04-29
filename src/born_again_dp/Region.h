@@ -28,22 +28,28 @@ SOFTWARE.*/
 #include <set>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 class Region{
 
 public:
     
-    // 
+    // Bottom of the region
     std::vector<double> Bottom;
     
-    
+    // Top of the region
     std::vector<double> Top;
+
+    // Number of features
+    int nbFeatures;
     
     // Collects local hyperplane levels w.r.t the region
 	std::vector<std::vector<double>> getLocalHyperplanes(const std::vector<std::vector<double>> & hyperplanes);
 
+    // Read a vector from a file    
+    void readVector(std::ifstream &inputFile, std::vector<double>& v)
+    
     //Constructor
-    Region(std::ifstream & inputFile);
-
+    Region(int nbFeatures , std::ifstream & inputFile);
 
 }

@@ -36,3 +36,37 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
     return myHyperplanes;
 
 }
+
+void readVector(std::ifstream &inputFile, std::vector<double>& v) {
+    std::string line;
+    if (std::getline(inputFile, line)) {
+        std::stringstream ss(line);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            v.push_back(std::stoi(token));
+        }
+    }
+}
+
+
+Region::Region(int nbF ,std::ifstream & inputFile) {
+    
+    nbFeatures = nbF;
+
+    readVector(inputFile, Bottom);
+    readVector(inputFile, Top);
+    inputFile.close();
+
+    if(Bottom.size() != Top.size()){
+        std::cout << "Vectors don't have the same size" << std::endl;
+    }
+
+    else {
+        for(int i = 0;i<Top.size();i++){
+            if (Top[i]<Bottom[i]){
+                std::cout << "Undefined region, the first vector must be less or equal second vector" << std::endl;
+            }
+        }
+    }
+
+}
