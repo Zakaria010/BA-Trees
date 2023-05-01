@@ -20,7 +20,16 @@ int main(int argc, char** argv)
 			params.startTime = clock();
 			BornAgainDecisionTree bornAgainTree(&params, &randomForest);
 			if (c.objectiveFunction == 0 || c.objectiveFunction == 1 || c.objectiveFunction == 2)
-				bornAgainTree.buildOptimal();
+				if(!c.region_file.empty()){
+					std::ifstream regionFile(c.region_file.c_str());
+					if(regionFile.is_open()){
+						Region region(params.nbFeatures, regionFile);
+						bornAgainTree.buildOptimal(&region);
+					}					
+				}
+				else{
+					bornAgainTree.buildOptimal();
+				}
 			else if (c.objectiveFunction == 4)
 				bornAgainTree.buildHeuristic();
 			params.stopTime = clock();
