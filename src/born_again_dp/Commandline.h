@@ -41,7 +41,7 @@ public:
 	// Constructor
 	Commandline(int argc, char* argv[])
 	{
-		if (argc > 9 || argc < 2)
+		if (argc > 11 || argc < 2)
 		{
 			std::cout << "ISSUE WITH THE NUMBER OF COMMANDLINE ARGUMENTS: " << argc << std::endl;
 			command_ok = false;

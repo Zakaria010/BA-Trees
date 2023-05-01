@@ -20,15 +20,15 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
                 std::copy(hyperplanes[k].begin(),hyperplanes[k].end(),myHyperplanes[k].begin());
             }
             else{
-                std::copy(hyperplanes[k].begin(),j+2,myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin(),hyperplanes[k].begin()+ j + 2,myHyperplanes[k].begin());
             }
         }
         else{
             if(j == hyperplanes[k].size()-1){
-                std::copy(i-1,hyperplanes[k].end(),myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin()+ i - 1,hyperplanes[k].end(),myHyperplanes[k].begin());
             }
             else{
-                std::copy(i-1,j+2,myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin() + i - 1,hyperplanes[k].begin() + j + 2,myHyperplanes[k].begin());
             }
         }
     }
@@ -37,7 +37,7 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
 
 }
 
-void readVector(std::ifstream &inputFile, std::vector<double>& v) {
+void Region::readVector(std::ifstream &inputFile, std::vector<double>& v) {
     std::string line;
     if (std::getline(inputFile, line)) {
         std::stringstream ss(line);

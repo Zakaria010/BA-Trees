@@ -26,6 +26,7 @@ SOFTWARE.*/
 #include "Params.h"
 #include "RandomForest.h"
 #include "FSpace.h"
+#include "Region.h"
 #include <set>
 
 #ifdef USING_CPLEX
@@ -92,7 +93,7 @@ public:
     // Main procedure: Building the reborn decision tree (using an exact algorithm) -- the result is guaranteed to have the smallest size and to be faithful
     void buildOptimal();
 
-	void buildOptimal(Region region);
+	void buildRegionOptimal(Region * region);
 
 	// Main procedure: Building the reborn decision tree (using an heuristic based on data manufacturing + an oracle) -- the result is still guaranteed to be faithful
 	void buildHeuristic();

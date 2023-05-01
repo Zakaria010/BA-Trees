@@ -2,6 +2,7 @@
 #include "Params.h"
 #include "RandomForest.h"
 #include "BornAgainDecisionTree.h"
+#include "Region.h"
 
 int main(int argc, char** argv)
 {
@@ -24,7 +25,7 @@ int main(int argc, char** argv)
 					std::ifstream regionFile(c.region_file.c_str());
 					if(regionFile.is_open()){
 						Region region(params.nbFeatures, regionFile);
-						bornAgainTree.buildOptimal(&region);
+						bornAgainTree.buildRegionOptimal(&region);
 					}					
 				}
 				else{

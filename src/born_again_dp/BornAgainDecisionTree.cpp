@@ -244,7 +244,7 @@ void BornAgainDecisionTree::buildOptimal()
 	collectResultDP(0, (int)fspaceFinal.nbCells - 1, finalObjective, 0);
 }
 
-void BornAgainDecisionTree::buildOptimal(Region * r)
+void BornAgainDecisionTree::buildRegionOptimal(Region * r)
 {
 	iterationsDP = 0;
 	regionsMemorizedDP = 0;

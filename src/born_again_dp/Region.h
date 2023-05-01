@@ -47,9 +47,10 @@ public:
 	std::vector<std::vector<double>> getLocalHyperplanes(const std::vector<std::vector<double>> & hyperplanes);
 
     // Read a vector from a file    
-    void readVector(std::ifstream &inputFile, std::vector<double>& v)
+    void readVector(std::ifstream &inputFile, std::vector<double>& v);
     
     //Constructor
     Region(int nbFeatures , std::ifstream & inputFile);
 
-}
+};
+#endif

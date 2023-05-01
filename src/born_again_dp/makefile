@@ -9,6 +9,7 @@ OBJS2 = \
         $(TARGETDIR)/main.o \
         $(TARGETDIR)/BornAgainDecisionTree.o \
         $(TARGETDIR)/FSpace.o \
+        $(TARGETDIR)/Region.o \
         $(TARGETDIR)/RandomForest.o
 
 ifdef withCPLEX
