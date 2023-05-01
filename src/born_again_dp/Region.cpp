@@ -17,18 +17,19 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
         }
         if(i == 0){
             if(j == hyperplanes[k].size()-1){
-                std::copy(hyperplanes[k].begin(),hyperplanes[k].end(),myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin(), hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
             }
             else{
-                std::copy(hyperplanes[k].begin(),hyperplanes[k].begin()+ j + 2,myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin(), hyperplanes[k].begin()+ j + 2, std::back_inserter(myHyperplanes[k]));
+                
             }
         }
         else{
             if(j == hyperplanes[k].size()-1){
-                std::copy(hyperplanes[k].begin()+ i - 1,hyperplanes[k].end(),myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin()+ i - 1, hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
             }
             else{
-                std::copy(hyperplanes[k].begin() + i - 1,hyperplanes[k].begin() + j + 2,myHyperplanes[k].begin());
+                std::copy(hyperplanes[k].begin() + i - 1, hyperplanes[k].begin() + j + 2, std::back_inserter(myHyperplanes[k]));
             }
         }
     }
@@ -52,7 +53,6 @@ void Region::readVector(std::ifstream &inputFile, std::vector<double>& v) {
 Region::Region(int nbF ,std::ifstream & inputFile) {
     
     nbFeatures = nbF;
-
     readVector(inputFile, Bottom);
     readVector(inputFile, Top);
     inputFile.close();
