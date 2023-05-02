@@ -5,33 +5,48 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
     std::vector<std::vector<double>> myHyperplanes(nbFeatures);
     
 	for (int k = 0; k < nbFeatures; k++){
-        int i = 0; 
-        int j = hyperplanes[k].size()-1;
-        while(i<j){
-            if(hyperplanes[k][i]<Bottom[k]){
-                i++;
-            }
-            if(hyperplanes[k][j]>Top[k]){
-                j--;
-            }
-        }
-        if(i == 0){
-            if(j == hyperplanes[k].size()-1){
-                std::copy(hyperplanes[k].begin(), hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
-            }
-            else{
-                std::copy(hyperplanes[k].begin(), hyperplanes[k].begin()+ j + 2, std::back_inserter(myHyperplanes[k]));
-                
+        if(Top[k] == Bottom[k]){
+            int l =0;
+            while(l<hyperplanes[k].size()) {
+                if(hyperplanes[k][l]<Bottom[k]){
+                    l++;
+                }
+                else{
+                    myHyperplanes[k].push_back(hyperplanes[k][l]);
+                    break;
+                }
             }
         }
         else{
-            if(j == hyperplanes[k].size()-1){
-                std::copy(hyperplanes[k].begin()+ i - 1, hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
+            int i = 0; 
+            int j = hyperplanes[k].size()-1;
+            while(i<j){
+                if(hyperplanes[k][i]<Bottom[k]){
+                    i++;
+                }
+                if(hyperplanes[k][j]>Top[k]){
+                    j--;
+                }
+            }
+            if(i == 0){
+                if(j == hyperplanes[k].size()-1){
+                    std::copy(hyperplanes[k].begin(), hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
+                }
+                else{
+                    std::copy(hyperplanes[k].begin(), hyperplanes[k].begin()+ j + 2, std::back_inserter(myHyperplanes[k]));
+                
+                }
             }
             else{
-                std::copy(hyperplanes[k].begin() + i - 1, hyperplanes[k].begin() + j + 2, std::back_inserter(myHyperplanes[k]));
+                if(j == hyperplanes[k].size()-1){
+                    std::copy(hyperplanes[k].begin()+ i - 1, hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
+                }
+                else{
+                    std::copy(hyperplanes[k].begin() + i - 1, hyperplanes[k].begin() + j + 2, std::back_inserter(myHyperplanes[k]));
+                }
             }
         }
+        
     }
 
     return myHyperplanes;
