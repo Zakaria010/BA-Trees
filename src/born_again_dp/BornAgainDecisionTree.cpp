@@ -254,7 +254,9 @@ void BornAgainDecisionTree::buildRegionOptimal(Region * r)
 
 	// Initialize the cells structures and keep useful hyperplanes
 	fspaceOriginal.initializeCells(r->getLocalHyperplanes(randomForest->getHyperplanes()),false);
-	fspaceFinal.initializeCells(fspaceOriginal.exportUsefulHyperplanes(),true);
+	// fspaceFinal.initializeCells(fspaceOriginal.exportUsefulHyperplanes(),true);
+	fspaceFinal.initializeCells(fspaceOriginal.orderedHyperplaneLevels, false);
+
 	
 	// Initialize the memory to store the DP results on the regions
 	regions = std::vector<std::vector<unsigned int>>(fspaceFinal.nbCells);

@@ -5,51 +5,12 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
     std::vector<std::vector<double>> myHyperplanes(nbFeatures);
     
 	for (int k = 0; k < nbFeatures; k++){
-        if(Top[k] == Bottom[k]){
-            int l =0;
-            while(l<hyperplanes[k].size()) {
-                if(hyperplanes[k][l]<Bottom[k]){
-                    l++;
-                }
-                else{
-                    myHyperplanes[k].push_back(hyperplanes[k][l]);
-                    break;
-                }
-            }
-        }
-        else{
-            int i = 0; 
-            int j = hyperplanes[k].size()-1;
-            while(i<j){
-                if(hyperplanes[k][i]<Bottom[k]){
-                    i++;
-                }
-                if(hyperplanes[k][j]>Top[k]){
-                    j--;
-                }
-                if((hyperplanes[k][i]>=Bottom[k]) && (hyperplanes[k][j]<=Top[k])){
-                    break;
-                }
-            }
-            if(i == 0){
-                if(j == hyperplanes[k].size()-1){
-                    std::copy(hyperplanes[k].begin(), hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
-                }
-                else{
-                    std::copy(hyperplanes[k].begin(), hyperplanes[k].begin()+ j + 2, std::back_inserter(myHyperplanes[k]));
-                
-                }
-            }
-            else{
-                if(j == hyperplanes[k].size()-1){
-                    std::copy(hyperplanes[k].begin()+ i - 1, hyperplanes[k].end(), std::back_inserter(myHyperplanes[k]));
-                }
-                else{
-                    std::copy(hyperplanes[k].begin() + i - 1, hyperplanes[k].begin() + j + 2, std::back_inserter(myHyperplanes[k]));
-                }
-            }
-        }
-        
+        int j = hyperplanes[k].size() - 1;
+        while (j >= 1 && hyperplanes[k][j-1] > Top[k]) j--;
+
+        int i = hyperplanes[k].size() - 1;
+        while (i >= 1 && hyperplanes[k][i-1] > Bottom[k]) i--;
+        myHyperplanes[k] = std::vector<double>(hyperplanes[k].begin() + i, hyperplanes[k].begin() + j + 1);
     }
 
     return myHyperplanes;
