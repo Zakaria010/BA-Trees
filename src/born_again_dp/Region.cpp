@@ -27,6 +27,9 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
                 if(hyperplanes[k][j]>Top[k]){
                     j--;
                 }
+                if((hyperplanes[k][i]>=Bottom[k]) && (hyperplanes[k][j]<=Top[k])){
+                    break;
+                }
             }
             if(i == 0){
                 if(j == hyperplanes[k].size()-1){
