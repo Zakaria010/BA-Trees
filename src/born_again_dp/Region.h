@@ -51,6 +51,7 @@ public:
     
     //Constructor
     Region(int nbFeatures , std::ifstream & inputFile);
+    Region(std::vector<double> Bottom,  std::vector<double> Top);
 
 };
 #endif

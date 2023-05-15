@@ -49,3 +49,20 @@ Region::Region(int nbF ,std::ifstream & inputFile) {
     }
 
 }
+Region::Region(std::vector<double> Bot, std::vector<double> T){
+    if(Bot.size() != T.size()){
+        std::cout << "Vectors don't have the same size" << std::endl;
+    }
+
+    else {
+        for(int i = 0;i<T.size();i++){
+            if (T[i]<Bot[i]){
+                std::cout << "Undefined region, the first vector must be less or equal second vector" << std::endl;
+            }
+        }
+    }
+    Bottom = Bot;
+    Top = T;
+    nbFeatures = Bottom.size();
+
+}
