@@ -65,24 +65,33 @@ std::vector<std::vector<double>> RandomForest::getHyperplanes()
 	return myHyperplanes;
 }
 
-std::vector<std::map<double,int>> RandomForest::getHyperplanesImportance()
+std::pair<std::vector<std::vector<double>>,std::vector<std::map<double,int>>> RandomForest::getHyperplanesImportance()
 {
 	// Collect all possible hyperplanes for all features and add them in a structure
+	std::vector<std::set<double>> hyperplaneLevelsTemp = std::vector<std::set<double>>(params->nbFeatures);
 	std::vector<std::map<double,int>> myHyperplanesImportance = std::vector<std::map<double,int>>(params->nbFeatures);
 	for (int t = 0; t < params->nbTrees; t++)
+	{
 		for (int i = 0; i < (int)trees[t].size() ; i++)
+		{
 			if (trees[t][i].nodeType == Node::NODE_INTERNAL){
-				//hyperplaneLevelsTemp[trees[t][i].splitFeature].insert(trees[t][i].splitValue);
+				
+				hyperplaneLevelsTemp[trees[t][i].splitFeature].insert(trees[t][i].splitValue);
 				if (myHyperplanesImportance[trees[t][i].splitFeature].count(trees[t][i].splitValue)>0) 
 					myHyperplanesImportance[trees[t][i].splitFeature][trees[t][i].splitValue]++;
 				else
 					myHyperplanesImportance[trees[t][i].splitFeature][trees[t][i].splitValue] = 1;
+				
 			}
+		}
+	}
+	std::vector<std::vector<double>> myHyperplanes(params->nbFeatures);
 	for (int k = 0; k < params->nbFeatures; k++)
 	{
-		myHyperplanesImportance[k][1.e30] = 1;
+		myHyperplanes[k] = std::vector<double>(hyperplaneLevelsTemp[k].begin(), hyperplaneLevelsTemp[k].end());
+		myHyperplanes[k].push_back(1.e30);
 	}
-	return myHyperplanesImportance;
+	return std::make_pair(myHyperplanes,myHyperplanesImportance);
 }
 
 RandomForest::RandomForest(Params * params, std::ifstream & inputFile) : params(params)

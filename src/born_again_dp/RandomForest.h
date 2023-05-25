@@ -79,6 +79,9 @@ public:
 
 	// Collects all hyperplane levels
 	std::vector<std::vector<double>> getHyperplanes();
+
+	// Collects All hyperplanes and their importance
+	std::pair<std::vector<std::vector<double>>,std::vector<std::map<double,int>>> getHyperplanesImportance();
 	
 	// Constructor
 	RandomForest(Params * params, std::ifstream & inputFile);

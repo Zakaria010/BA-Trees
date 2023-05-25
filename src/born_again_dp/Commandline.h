@@ -33,15 +33,17 @@ public:
 	std::string instance_name;		// Instance path
 	std::string output_name;		// Output path
 	std::string region_file;        // Region file path
+	std::string instance;    		// Instance to explain 
 	bool command_ok;				// Boolean to check if the command line is valid
 	int nbTrees;					// Hard limit on the number of trees (defaults to the number of trees from the input data)
 	int objectiveFunction;			// 0 = Depth ; 1 = NbLeaves ; 2 = Depth then NbLeaves ; 3 = NbLeaves then Depth (not yet implemented) ; 4 = Heuristic BA tree (with faithfulness certificate if the pre-processor flag "USING_CPLEX" is defined and CPLEX is linked)
 	int seed;						// Random seed (only impacts the heuristic)
+	int depth;						// Maximal depth of returned BA tree
 
 	// Constructor
 	Commandline(int argc, char* argv[])
 	{
-		if (argc > 11 || argc < 2)
+		if (argc > 13 || argc < 2)
 		{
 			std::cout << "ISSUE WITH THE NUMBER OF COMMANDLINE ARGUMENTS: " << argc << std::endl;
 			command_ok = false;
@@ -63,8 +65,12 @@ public:
 					objectiveFunction = atoi(argv[i + 1]);
 				else if (std::string(argv[i]) == "-seed")
 					seed = atoi(argv[i + 1]);
-				else if (std::string(argv[i]) == "-region")
-					region_file = std::string(argv[i + 1]);
+				// else if (std::string(argv[i]) == "-region")
+				// 	region_file = std::string(argv[i + 1]);
+				else if (std::string(argv[i]) == "-instance")
+					instance = std::string(argv[i + 1]);
+				else if (std::string(argv[i]) == "-depth")
+					depth = atoi(argv[i + 1]);
 				else
 				{
 					std::cout << "----- NON RECOGNIZED ARGUMENT: " << std::string(argv[i]) << std::endl;

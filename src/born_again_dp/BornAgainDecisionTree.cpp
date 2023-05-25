@@ -216,6 +216,100 @@ int BornAgainDecisionTree::collectResultDP(int indexBottom, int indexTop, unsign
 	}
 }
 
+int BornAgainDecisionTree::computeRegion(Region * r, int d)
+{
+	iterationsDP = 0;
+	regionsMemorizedDP = 0;
+	finalSplits = 0;
+	finalLeaves = 0;
+	finalDepth = 0;
+
+	// Initialize the cells structures and keep useful hyperplanes
+	fspaceOriginal.initializeCells(randomForest->getHyperplanes(),false);
+	// fspaceFinal.initializeCells(fspaceOriginal.exportUsefulHyperplanes(),true);
+	fspaceFinal.initializeCells(randomForest->getHyperplanes(), false);
+	
+	// Initialize the memory to store the DP results on the regions
+	regions = std::vector<std::vector<unsigned int>>(fspaceFinal.nbCells);
+	for (int index = 0; index < fspaceFinal.nbCells; index++){
+		regions[index] = std::vector<unsigned int>(fspaceFinal.keyToHash(index,fspaceFinal.nbCells-1)+1,UINT_MAX);
+		//std::cout<<"size of : "<<index<<" : "<<regions[index].size()<<std::endl;
+	}
+	// Get hyperplanes and hyperplanes importance
+	auto myPair = randomForest->getHyperplanesImportance();
+	//hyperplanes = std::vector<std::vector<double>>(r->nbFeatures);
+	hyperplanes = myPair.first;
+	hyperplanesImportance = myPair.second;
+
+	// Create index of the region bottom and top
+	int indexBottom = fspaceFinal.cellToKey(r->Bottom);
+	int indexTop = fspaceFinal.cellToKey(r->Top);
+	
+	// Add first region
+	depthh = dynamicProgrammingOptimizeDepth(indexBottom, indexTop);
+	if (depthh<=d) usefulRegions.push_back(std::make_pair(std::make_pair(indexBottom,indexTop), r->gain));
+	solve(r,d);
+	
+	std::sort(usefulRegions.begin(), usefulRegions.end(), compareGain);
+	auto reg = usefulRegions[0].first;
+	indexBottom = reg.first;
+	indexTop = reg.second;
+	depthh = dynamicProgrammingOptimizeDepth(indexBottom, indexTop);
+
+	// Collect the final solution
+	collectResultDP(indexBottom, indexTop, depthh, 0);
+	return usefulRegions[0].second;
+}
+
+bool BornAgainDecisionTree::compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b) {
+    return a.second > b.second;
+}
+
+
+void BornAgainDecisionTree::solve(Region * r, int d)
+{
+	for(int k=0 ; k< r->nbFeatures;k++){
+		int i = r->Bottom[k];
+		if(i>0){
+			r->Bottom[k] -= 1;
+			r->gain += hyperplanesImportance[k][hyperplanes[k][r->Bottom[k]]];
+			// Create index of the region bottom and top
+			int indexBottom = fspaceFinal.cellToKey(r->Bottom);
+			int indexTop = fspaceFinal.cellToKey(r->Top);
+			// Add region
+			depthh = dynamicProgrammingOptimizeDepth(indexBottom, indexTop);
+			if (depthh<=d){
+				usefulRegions.push_back(std::make_pair(std::make_pair(indexBottom, indexTop), r->gain));
+				solve(r,d);
+			}
+			else{
+				r->gain -= hyperplanesImportance[k][hyperplanes[k][r->Bottom[k]]];
+				r->Bottom[k] += 1;
+			}
+		}
+		int j = r->Top[k];
+		
+		if(j < hyperplanes[k].size()-1){
+			r->gain += hyperplanesImportance[k][hyperplanes[k][r->Top[k]]];
+			r->Top[k] += 1;
+			
+			// Create index of the region bottom and top
+			int indexBottom = fspaceFinal.cellToKey(r->Bottom);
+			int indexTop = fspaceFinal.cellToKey(r->Top);
+			// Add region
+			depthh = dynamicProgrammingOptimizeDepth(indexBottom, indexTop);
+			if (depthh<=d){
+				usefulRegions.push_back(std::make_pair(std::make_pair(indexBottom, indexTop), r->gain));
+				solve(r,d);
+			}
+			else{
+				r->Top[k] -= 1;
+				r->gain -= hyperplanesImportance[k][hyperplanes[k][r->Top[k]]];
+			}
+		}
+	}
+}
+
 void BornAgainDecisionTree::buildOptimal()
 {
 	iterationsDP = 0;

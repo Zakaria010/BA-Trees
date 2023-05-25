@@ -29,29 +29,54 @@ SOFTWARE.*/
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <map>
 
 class Region{
 
 public:
     
-    // Bottom of the region
-    std::vector<double> Bottom;
+    // indexBottom of the region
+    std::vector<int> Bottom;
     
-    // Top of the region
-    std::vector<double> Top;
+    // indexTop of the region
+    std::vector<int> Top;
+
+    // Bottom 
+    std::vector<double> BottomV;
+
+    // Top
+    std::vector<double> TopV;
 
     // Number of features
     int nbFeatures;
-    
+
+    // Region Gain
+    int gain;
+
+    //parse vector
+    std::vector<double> parse_vector(std::string str, char delimiter);
+
+    // FeatureLevel Importance
+    std::vector<std::map<double,int>> hyperplaneLevelsImportance;
+
+    // Local Hyperplanes
+    std::vector<std::vector<double>> localHyperplanes;
+
     // Collects local hyperplane levels w.r.t the region
 	std::vector<std::vector<double>> getLocalHyperplanes(const std::vector<std::vector<double>> & hyperplanes);
+
+    // Compute Region Gain
+    //int computeRegionGain();
+
+    //getCell
+    std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes);
 
     // Read a vector from a file    
     void readVector(std::ifstream &inputFile, std::vector<double>& v);
     
     //Constructor
     Region(int nbFeatures , std::ifstream & inputFile);
-    Region(std::vector<double> Bottom,  std::vector<double> Top);
+    Region(std::string Bottom,  std::string Top, std::vector<std::vector<double>> hyperplanes);
 
 };
 #endif

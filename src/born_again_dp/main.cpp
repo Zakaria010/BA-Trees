@@ -28,6 +28,10 @@ int main(int argc, char** argv)
 						bornAgainTree.buildRegionOptimal(&region);
 					}					
 				}
+				else if (!c.instance.empty()){
+					Region region(c.instance,c.instance,randomForest.getHyperplanes());
+					bornAgainTree.computeRegion(&region,c.depth);
+				}
 				else{
 					bornAgainTree.buildOptimal();
 				}

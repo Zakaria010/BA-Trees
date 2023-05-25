@@ -61,6 +61,13 @@ private:
 	// The regions are maintained contiguously in a vector using a perfect hash
 	// This demonstrated a better memory performance than an unordered_map for obj 1 and 2
 	std::vector<std::vector<unsigned int>> regions;
+	int depthh;
+
+	//useful variables
+	// Create vector to store useful regions with their gain
+	std::vector<std::pair<std::pair<int,int>, int>> usefulRegions;
+	std::vector<std::vector<double>> hyperplanes;
+	std::vector<std::map<double,int>> hyperplanesImportance;
 
 	// Born-again tree produced by the algorithm, using the same internal representation as scikit-learn
 	std::vector<Node> rebornTree;
@@ -106,6 +113,17 @@ public:
 
 	// Exports the born-again tree in a file
 	void exportBATree(std::string fileName);
+
+	//Compute the best region that gives a BA with depth less or equal d 
+    int computeRegion(Region * region, int d);
+	
+	static bool compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b);
+
+	// int checkLeft(Region * r,int d,int k);
+
+	// int checkRight(Region * r,int d,int k);
+
+	void solve(Region * r, int d);
 
 	// Constructor
 	BornAgainDecisionTree(Params * params, RandomForest * randomForest): params(params), randomForest(randomForest), fspaceOriginal(params, randomForest), fspaceFinal(params, randomForest){};

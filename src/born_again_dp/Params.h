@@ -33,6 +33,8 @@ SOFTWARE.*/
 #include <math.h>
 #include <climits>
 #include <random>
+#include <utility>
+#include <map>
 
 class Params
 {
