@@ -17,32 +17,47 @@ int main(int argc, char** argv)
 			Params params(inputFile, c.nbTrees, c.objectiveFunction,c.seed);
 			RandomForest randomForest(&params, inputFile);
 
-			/* CONSTRUCTING THE BORN-AGAIN TREE */
-			params.startTime = clock();
-			BornAgainDecisionTree bornAgainTree(&params, &randomForest);
-			if (c.objectiveFunction == 0 || c.objectiveFunction == 1 || c.objectiveFunction == 2)
-				if(!c.region_file.empty()){
-					std::ifstream regionFile(c.region_file.c_str());
-					if(regionFile.is_open()){
-						Region region(params.nbFeatures, regionFile);
-						bornAgainTree.buildRegionOptimal(&region);
-					}					
-				}
-				else if (!c.instance.empty()){
-					Region region(c.instance,c.instance,randomForest.getHyperplanes());
-					bornAgainTree.computeRegion(&region,c.depth);
-				}
-				else{
-					bornAgainTree.buildOptimal();
-				}
-			else if (c.objectiveFunction == 4)
-				bornAgainTree.buildHeuristic();
-			params.stopTime = clock();
-
-			/* EXPORTING STATISTICS AND RESULTS */
-			bornAgainTree.displayRunStatistics();
-			bornAgainTree.exportRunStatistics(c.output_name + ".out");
-			bornAgainTree.exportBATree(c.output_name + ".tree");
+			bool useRegion = !c.instance.empty();
+			if(useRegion){ 
+				/* CONSTRUCTING THE BORN-AGAIN TREE */
+				Region region(c.instance,c.instance,randomForest.getHyperplanes());
+				params.startTime = clock();
+				BornAgainDecisionTree bornAgainTree(&params, &randomForest);
+				bornAgainTree.computeRegion(&region,c.depth);
+				params.stopTime = clock();
+				
+				/* EXPORTING STATISTICS AND RESULTS */
+				bornAgainTree.displayRunStatistics();
+				bornAgainTree.exportRunStatistics(c.output_name + ".out");
+				bornAgainTree.exportRegionBATree(c.output_name + ".tree", &region);
+			}
+			
+			else{
+				/* CONSTRUCTING THE BORN-AGAIN TREE */
+				params.startTime = clock();
+				BornAgainDecisionTree bornAgainTree(&params, &randomForest);
+				if (c.objectiveFunction == 0 || c.objectiveFunction == 1 || c.objectiveFunction == 2)
+					if(!c.region_file.empty()){
+						std::ifstream regionFile(c.region_file.c_str());
+						if(regionFile.is_open()){
+							Region region(params.nbFeatures, regionFile);
+							bornAgainTree.buildRegionOptimal(&region);
+						}					
+					}
+					else{
+						bornAgainTree.buildOptimal();
+					}
+				else if (c.objectiveFunction == 4)
+					bornAgainTree.buildHeuristic();
+				params.stopTime = clock();
+				
+				/* EXPORTING STATISTICS AND RESULTS */
+				bornAgainTree.displayRunStatistics();
+				bornAgainTree.exportRunStatistics(c.output_name + ".out");
+				bornAgainTree.exportBATree(c.output_name + ".tree");
+			}
+			
+			
 		}
 		else
 		{

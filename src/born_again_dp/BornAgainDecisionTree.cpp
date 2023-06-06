@@ -233,7 +233,6 @@ int BornAgainDecisionTree::computeRegion(Region * r, int d)
 	regions = std::vector<std::vector<unsigned int>>(fspaceFinal.nbCells);
 	for (int index = 0; index < fspaceFinal.nbCells; index++){
 		regions[index] = std::vector<unsigned int>(fspaceFinal.keyToHash(index,fspaceFinal.nbCells-1)+1,UINT_MAX);
-		//std::cout<<"size of : "<<index<<" : "<<regions[index].size()<<std::endl;
 	}
 	// Get hyperplanes and hyperplanes importance
 	auto myPair = randomForest->getHyperplanesImportance();
@@ -258,6 +257,13 @@ int BornAgainDecisionTree::computeRegion(Region * r, int d)
 
 	// Collect the final solution
 	collectResultDP(indexBottom, indexTop, depthh, 0);
+
+	// Collect the region
+	for(int i=0; i<r->nbFeatures;i++) {
+		r->BottomV[i] = fspaceFinal.keyToCell(indexBottom,i);
+		r->TopV[i] = fspaceFinal.keyToCell(indexTop,i);
+	}
+
 	return usefulRegions[0].second;
 }
 
@@ -423,6 +429,47 @@ void BornAgainDecisionTree::exportBATree(std::string fileName)
 		myfile << "NB_FEATURES: " << params->nbFeatures << std::endl;
 		myfile << "NB_CLASSES: " << params->nbClasses << std::endl;
 		myfile << "MAX_TREE_DEPTH: " << finalDepth << std::endl;
+		myfile << "Format: node / node type(LN - leave node, IN - internal node) left child / right child / feature / threshold / node_depth / majority class (starts with index 0)" << std::endl;
+		myfile << std::endl;
+		myfile << "[TREE 0]" << std::endl;
+		myfile << "NB_NODES: " << finalSplits+ finalLeaves << std::endl;
+
+		for (int i = 0; i < (int)rebornTree.size(); i++)
+		{
+			if (rebornTree[i].nodeType == Node::NODE_INTERNAL)
+				myfile << i << " IN " << rebornTree[i].leftChild << " " << rebornTree[i].rightChild << " " << rebornTree[i].splitFeature << " " << rebornTree[i].splitValue << " " << rebornTree[i].depth << " -1" << std::endl;
+			else if (rebornTree[i].nodeType == Node::NODE_LEAF)
+				myfile << i << " LN -1 -1 -1 -1 " << rebornTree[i].depth << " " << rebornTree[i].classification << std::endl;
+			else throw std::string("Error: Unexpected node type");
+		}
+	}
+	else
+		std::cout << "PROBLEM OPENING FILE  " << fileName << std::endl;
+}
+
+void BornAgainDecisionTree::exportRegionBATree(std::string fileName,Region * r)
+{
+	std::ofstream myfile;
+	std::cout << "----- EXPORTING BA TREE in " << fileName << std::endl;
+	myfile.open(fileName.data());
+	if (myfile.is_open())
+	{
+		myfile << "DATASET_NAME: " << params->datasetName << std::endl;
+		myfile << "ENSEMBLE: BA" << std::endl;
+		myfile << "NB_TREES: " << 1 << std::endl;
+		myfile << "NB_FEATURES: " << params->nbFeatures << std::endl;
+		myfile << "NB_CLASSES: " << params->nbClasses << std::endl;
+		myfile << "MAX_TREE_DEPTH: " << finalDepth << std::endl;
+		myfile << "Bottom Vector : "; 
+		for(int i = 0;i< r->nbFeatures-1;i++){
+			myfile<< r->BottomV[i] << ", ";
+		}
+		myfile<< r->BottomV[r->nbFeatures-1] << std::endl;
+		myfile << "Top Vector : "; 
+		for(int i = 0;i< r->nbFeatures-1;i++){
+			myfile<< r->TopV[i] << ", ";
+		}
+		myfile<< r->TopV[r->nbFeatures-1] << std::endl;
 		myfile << "Format: node / node type(LN - leave node, IN - internal node) left child / right child / feature / threshold / node_depth / majority class (starts with index 0)" << std::endl;
 		myfile << std::endl;
 		myfile << "[TREE 0]" << std::endl;

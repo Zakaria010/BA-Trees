@@ -114,14 +114,13 @@ public:
 	// Exports the born-again tree in a file
 	void exportBATree(std::string fileName);
 
+	// Exports the born-again tree and its region in a file
+	void exportRegionBATree(std::string fileName,Region * r);
+
 	//Compute the best region that gives a BA with depth less or equal d 
     int computeRegion(Region * region, int d);
 	
 	static bool compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b);
-
-	// int checkLeft(Region * r,int d,int k);
-
-	// int checkRight(Region * r,int d,int k);
 
 	void solve(Region * r, int d);
 
