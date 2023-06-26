@@ -62,12 +62,13 @@ private:
 	// This demonstrated a better memory performance than an unordered_map for obj 1 and 2
 	std::vector<std::vector<unsigned int>> regions;
 	int depthh;
+	int solveIterations=0;
 
 	//useful variables
 	// Create vector to store useful regions with their gain
-	std::vector<std::pair<std::pair<int,int>, int>> usefulRegions;
+	std::vector<std::pair<std::pair<int,int>, double>> usefulRegions;
 	std::vector<std::vector<double>> hyperplanes;
-	std::vector<std::map<double,int>> hyperplanesImportance;
+	std::vector<std::map<double,double>> hyperplanes_Importance;
 
 	// Born-again tree produced by the algorithm, using the same internal representation as scikit-learn
 	std::vector<Node> rebornTree;
@@ -119,10 +120,15 @@ public:
 
 	//Compute the best region that gives a BA with depth less or equal d 
     int computeRegion(Region * region, int d);
+
+	double computeSecondRegion(Region * r, int d);
+	std::vector<std::map<double, double>> calculateFeatureLevelImportance();
+	double calculateGiniIndex(const std::vector<int>& classCounts, int totalSamples);
 	
 	static bool compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b);
 
 	void solve(Region * r, int d);
+	std::pair<std::pair<int,int>, double> solver(Region * r, int d, bool include);
 
 	// Constructor
 	BornAgainDecisionTree(Params * params, RandomForest * randomForest): params(params), randomForest(randomForest), fspaceOriginal(params, randomForest), fspaceFinal(params, randomForest){};

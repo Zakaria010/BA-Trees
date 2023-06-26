@@ -23,8 +23,9 @@ int main(int argc, char** argv)
 				Region region(c.instance,c.instance,randomForest.getHyperplanes());
 				params.startTime = clock();
 				BornAgainDecisionTree bornAgainTree(&params, &randomForest);
-				bornAgainTree.computeRegion(&region,c.depth);
+				double gain = bornAgainTree.computeSecondRegion(&region,c.depth);
 				params.stopTime = clock();
+				std::cout<<"gain : "<<gain<<std::endl;
 				
 				/* EXPORTING STATISTICS AND RESULTS */
 				bornAgainTree.displayRunStatistics();

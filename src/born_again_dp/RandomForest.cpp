@@ -65,11 +65,11 @@ std::vector<std::vector<double>> RandomForest::getHyperplanes()
 	return myHyperplanes;
 }
 
-std::pair<std::vector<std::vector<double>>,std::vector<std::map<double,int>>> RandomForest::getHyperplanesImportance()
+std::pair<std::vector<std::vector<double>>,std::vector<std::map<double,double>>> RandomForest::getHyperplanesImportance()
 {
 	// Collect all possible hyperplanes for all features and add them in a structure
 	std::vector<std::set<double>> hyperplaneLevelsTemp = std::vector<std::set<double>>(params->nbFeatures);
-	std::vector<std::map<double,int>> myHyperplanesImportance = std::vector<std::map<double,int>>(params->nbFeatures);
+	std::vector<std::map<double,double>> myHyperplanesImportance = std::vector<std::map<double,double>>(params->nbFeatures);
 	for (int t = 0; t < params->nbTrees; t++)
 	{
 		for (int i = 0; i < (int)trees[t].size() ; i++)

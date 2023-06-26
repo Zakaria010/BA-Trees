@@ -51,7 +51,7 @@ public:
     int nbFeatures;
 
     // Region Gain
-    int gain;
+    double gain;
 
     //parse vector
     std::vector<double> parse_vector(std::string str, char delimiter);
@@ -66,10 +66,10 @@ public:
 	std::vector<std::vector<double>> getLocalHyperplanes(const std::vector<std::vector<double>> & hyperplanes);
 
     // Compute Region Gain
-    //int computeRegionGain();
+    int computeRegionGain();
 
     //getCell
-    std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes);
+    static std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes);
 
     // Read a vector from a file    
     void readVector(std::ifstream &inputFile, std::vector<double>& v);
