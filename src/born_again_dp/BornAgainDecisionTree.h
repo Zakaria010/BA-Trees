@@ -63,6 +63,7 @@ private:
 	std::vector<std::vector<unsigned int>> regions;
 	int depthh;
 	int solveIterations=0;
+	int instance;
 
 	//useful variables
 	// Create vector to store useful regions with their gain
@@ -122,13 +123,14 @@ public:
     int computeRegion(Region * region, int d);
 
 	double computeSecondRegion(Region * r, int d);
+	double computeBestRegion(Region * r, int d);
 	std::vector<std::map<double, double>> calculateFeatureLevelImportance();
 	double calculateGiniIndex(const std::vector<int>& classCounts, int totalSamples);
 	
 	static bool compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b);
 
 	void solve(Region * r, int d);
-	std::pair<std::pair<int,int>, double> solver(Region * r, int d, bool include);
+	std::pair<std::pair<int,int>, double> solver(int indexBottom, int indexTop, int d);
 
 	// Constructor
 	BornAgainDecisionTree(Params * params, RandomForest * randomForest): params(params), randomForest(randomForest), fspaceOriginal(params, randomForest), fspaceFinal(params, randomForest){};

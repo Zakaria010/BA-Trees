@@ -43,18 +43,18 @@ std::vector<double> Region::parse_vector(std::string str, char delimiter) {
 }	
 
 
-int Region::computeRegionGain(std::vector<std::map<double,double>> hyperplanes_Importance)
-{
-    int G = 0;
-    for (int k=0; k< nbFeatures; k++){
-        for (size_t i=0; i< localHyperplanes[k].size()-1; i++){
-            G = G + hyperplanes_Importance[k][localHyperplanes[k][i]];
-        }
-    } 
-    return G;
-}
+// int Region::computeRegionGain()
+// {
+//     int G = 0;
+//     for (int k=0; k< nbFeatures; k++){
+//         for (size_t i=0; i< localHyperplanes[k].size()-1; i++){
+//             G = G + hyperplanes_Importance[k][localHyperplanes[k][i]];
+//         }
+//     } 
+//     return G;
+// }
 
-std::vector<int> Region::getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes)
+std::vector<int> Region::getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes, int nbFeatures)
 {
     std::vector<int> Cell;
     for (int k=0; k < nbFeatures;k++){
@@ -101,8 +101,8 @@ Region::Region(std::string Bot, std::string T, std::vector<std::vector<double>> 
         }
     }
     nbFeatures = BottomV.size();
-    Bottom = getCell(BottomV, hyperplanes);
-    Top = getCell(TopV, hyperplanes);
+    Bottom = getCell(BottomV, hyperplanes,nbFeatures);
+    Top = getCell(TopV, hyperplanes,nbFeatures);
     //hyperplaneLevelsImportance = hyperplaneLevelsImportance;
     localHyperplanes = getLocalHyperplanes(hyperplanes);
     gain = 0.0;

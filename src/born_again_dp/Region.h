@@ -66,10 +66,10 @@ public:
 	std::vector<std::vector<double>> getLocalHyperplanes(const std::vector<std::vector<double>> & hyperplanes);
 
     // Compute Region Gain
-    int computeRegionGain();
+    //int computeRegionGain();
 
     //getCell
-    static std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes);
+    static std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes, int nbFeatures);
 
     // Read a vector from a file    
     void readVector(std::ifstream &inputFile, std::vector<double>& v);
