@@ -1,0 +1,94 @@
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 1]
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+READING: [TREE 1]
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/FICO/FICO.RF1.txt
+READING: [TREE 2]
+READING: [TREE 2]
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 3]
+READING: [TREE 3]
+READING: [TREE 1]
+READING: [TREE 1]
+READING: [TREE 4]
+READING: [TREE 1]
+READING: [TREE 1]
+READING: [TREE 4]
+READING: [TREE 2]
+READING: [TREE 2]
+READING: [TREE 2]
+READING: [TREE 5]
+READING: [TREE 2]
+READING: [TREE 3]
+READING: [TREE 5]
+READING: [TREE 3]
+READING: [TREE 3]
+READING: [TREE 4]
+READING: [TREE 5]
+READING: [TREE 6]
+READING: [TREE 7]
+READING: [TREE 3]
+READING: [TREE 8]
+READING: [TREE 6]
+READING: [TREE 9]
+READING: [TREE 7]
+READING: [TREE 4]
+READING: [TREE 8]
+READING: [TREE 6]
+READING: [TREE 9]
+READING: [TREE 7]
+READING: [TREE 4]
+READING: [TREE 4]
+READING: [TREE 8]
+READING: [TREE 5]
+READING: [TREE 5]
+READING: [TREE 5]
+READING: [TREE 6]
+READING: [TREE 7]
+READING: [TREE 8]
+READING: [TREE 9]
+READING: [TREE 9]
+READING: [TREE 6]
+READING: [TREE 6]
+READING: [TREE 7]
+READING: [TREE 8]
+READING: [TREE 9]
+READING: [TREE 7]
+READING: [TREE 8]
+READING: [TREE 9]
+gain : 72.1144
+----- OPTIMAL SOLUTION FOUND                      
+----- OBJECTIVE:                                  Depth
+----- CPU TIME(s):                                2.14587
+----- ORIGINAL CELLS:                             65536
+----- FILTERED CELLS:                             65536
+----- NB SUBPROBLEMS:                             5.25048e+06
+----- NB RECURSIVE CALLS:                         2.01897e+07
+----- BA TREE DEPTH:                              9
+----- BA TREE LEAVES:                             87
+----- EXPORTING STATISTICS in ../outputDeter/FICO/FICO.BA1.D9.out
+----- EXPORTING BA TREE in ../outputDeter/FICO/FICO.BA1.D9.tree
+----- END OF ALGORITHM 
+
+gain : 70.0024
+----- OPTIMAL SOLUTION FOUND                      
+----- OBJECTIVE:                                  Depth
+----- CPU TIME(s):                                12.1893
+----- ORIGINAL CELLS:                             65536
+----- FILTERED CELLS:                             65536
+----- NB SUBPROBLEMS:                             8.95949e+06
+----- NB RECURSIVE CALLS:                         1.02618e+08
+----- BA TREE DEPTH:                              8
+----- BA TREE LEAVES:                             64
+----- EXPORTING STATISTICS in ../outputDeter/FICO/FICO.BA1.D8.out
+----- EXPORTING BA TREE in ../outputDeter/FICO/FICO.BA1.D8.tree
+----- END OF ALGORITHM 
+

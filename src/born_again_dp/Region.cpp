@@ -17,6 +17,26 @@ std::vector<std::vector<double>> Region::getLocalHyperplanes(const std::vector<s
 
 }
 
+std::vector<std::vector<double>> Region::getSmallerRegion(const std::vector<std::vector<double>> & hyperplanes){
+
+    std::vector<std::vector<double>> myHyperplanes(nbFeatures);
+    
+	for (int k = 0; k < nbFeatures; k++){
+        int j = hyperplanes[k].size() - 1;
+        while (j >= 1 && hyperplanes[k][j-1] > TopV[k]) j--;
+
+        int indexB = j;
+        while (indexB >= 1 && indexB>=j-3) indexB--;
+
+        int indexT = j;
+        while (indexT <hyperplanes[k].size()-1 && indexT<=j+3) indexT++;
+        myHyperplanes[k] = std::vector<double>(hyperplanes[k].begin() + indexB, hyperplanes[k].begin() + indexT + 1);
+    }
+
+    return myHyperplanes;
+
+}
+
 void Region::readVector(std::ifstream &inputFile, std::vector<double>& v) {
     std::string line;
     if (std::getline(inputFile, line)) {
@@ -104,7 +124,7 @@ Region::Region(std::string Bot, std::string T, std::vector<std::vector<double>> 
     Bottom = getCell(BottomV, hyperplanes,nbFeatures);
     Top = getCell(TopV, hyperplanes,nbFeatures);
     //hyperplaneLevelsImportance = hyperplaneLevelsImportance;
-    localHyperplanes = getLocalHyperplanes(hyperplanes);
+    localHyperplanes = getSmallerRegion(hyperplanes);
     gain = 0.0;
 
 }

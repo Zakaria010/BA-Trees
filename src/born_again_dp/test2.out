@@ -1,0 +1,73 @@
+mkdir: impossible de créer le répertoire « ../new_output »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/FICO »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/COMPAS-ProPublica »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/HTRU2 »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/Pima-Diabetes »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/Seeds »: Le fichier existe
+mkdir: impossible de créer le répertoire « ../new_output/Breast-Cancer-Wisconsin »: Le fichier existe
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+READING: [TREE 0]
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+READING: [TREE 0]
+----- READING RANDOM FOREST from ../resources/forests/Seeds/Seeds.RF1.txt
+READING: [TREE 1]
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 0]
+READING: [TREE 2]
+READING: [TREE 0]
+READING: [TREE 1]
+READING: [TREE 3]
+READING: [TREE 1]
+READING: [TREE 2]
+READING: [TREE 1]
+READING: [TREE 4]
+READING: [TREE 1]
+READING: [TREE 1]
+READING: [TREE 3]
+READING: [TREE 2]
+READING: [TREE 2]
+READING: [TREE 5]
+READING: [TREE 2]
+READING: [TREE 4]
+READING: [TREE 2]
+READING: [TREE 3]
+READING: [TREE 3]
+READING: [TREE 3]
+READING: [TREE 6]
+READING: [TREE 5]
+READING: [TREE 4]
+READING: [TREE 3]
+READING: [TREE 4]
+READING: [TREE 4]
+READING: [TREE 7]
+READING: [TREE 6]
+READING: [TREE 5]
+READING: [TREE 4]
+READING: [TREE 5]
+READING: [TREE 5]
+READING: [TREE 8]
+READING: [TREE 7]
+READING: [TREE 6]
+READING: [TREE 6]
+READING: [TREE 5]
+READING: [TREE 6]
+READING: [TREE 9]
+READING: [TREE 8]
+READING: [TREE 7]
+READING: [TREE 7]
+READING: [TREE 6]
+READING: [TREE 7]
+READING: [TREE 9]
+READING: [TREE 8]
+READING: [TREE 8]
+READING: [TREE 7]
+READING: [TREE 8]
+READING: [TREE 9]
+READING: [TREE 9]
+READING: [TREE 8]
+READING: [TREE 9]
+READING: [TREE 9]

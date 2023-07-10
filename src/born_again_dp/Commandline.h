@@ -39,11 +39,11 @@ public:
 	int objectiveFunction;			// 0 = Depth ; 1 = NbLeaves ; 2 = Depth then NbLeaves ; 3 = NbLeaves then Depth (not yet implemented) ; 4 = Heuristic BA tree (with faithfulness certificate if the pre-processor flag "USING_CPLEX" is defined and CPLEX is linked)
 	int seed;						// Random seed (only impacts the heuristic)
 	int depth;						// Maximal depth of returned BA tree
-
+	int method;                     // 0 = Heuristic(default) ; 1 = Deterministic
 	// Constructor
 	Commandline(int argc, char* argv[])
 	{
-		if (argc > 13 || argc < 2)
+		if (argc > 15 || argc < 2)
 		{
 			std::cout << "ISSUE WITH THE NUMBER OF COMMANDLINE ARGUMENTS: " << argc << std::endl;
 			command_ok = false;
@@ -71,6 +71,8 @@ public:
 					instance = std::string(argv[i + 1]);
 				else if (std::string(argv[i]) == "-depth")
 					depth = atoi(argv[i + 1]);
+				else if (std::string(argv[i]) == "-method")
+					method = atoi(argv[i + 1]);
 				else
 				{
 					std::cout << "----- NON RECOGNIZED ARGUMENT: " << std::string(argv[i]) << std::endl;

@@ -68,6 +68,8 @@ public:
     // Compute Region Gain
     //int computeRegionGain();
 
+    std::vector<std::vector<double>> getSmallerRegion(const std::vector<std::vector<double>> & hyperplanes);
+
     //getCell
     static std::vector<int> getCell(std::vector<double> v, std::vector<std::vector<double>> & hyperplanes, int nbFeatures);
 

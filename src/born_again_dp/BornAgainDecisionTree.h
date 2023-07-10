@@ -61,6 +61,7 @@ private:
 	// The regions are maintained contiguously in a vector using a perfect hash
 	// This demonstrated a better memory performance than an unordered_map for obj 1 and 2
 	std::vector<std::vector<unsigned int>> regions;
+	std::vector<std::vector<double>> gains;
 	int depthh;
 	int solveIterations=0;
 	int instance;
@@ -70,6 +71,7 @@ private:
 	std::vector<std::pair<std::pair<int,int>, double>> usefulRegions;
 	std::vector<std::vector<double>> hyperplanes;
 	std::vector<std::map<double,double>> hyperplanes_Importance;
+	std::vector<std::pair<int, double>> featureImportance;
 
 	// Born-again tree produced by the algorithm, using the same internal representation as scikit-learn
 	std::vector<Node> rebornTree;
@@ -124,8 +126,9 @@ public:
 
 	double computeSecondRegion(Region * r, int d);
 	double computeBestRegion(Region * r, int d);
-	std::vector<std::map<double, double>> calculateFeatureLevelImportance();
+	std::vector<std::map<double, double>> calculateFeatureLevelImportance(const std::vector<double>& inputVector);
 	double calculateGiniIndex(const std::vector<int>& classCounts, int totalSamples);
+	
 	
 	static bool compareGain(const std::pair<std::pair<int,int>, int>& a, const std::pair<std::pair<int,int>, int>& b);
 
