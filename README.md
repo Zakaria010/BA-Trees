@@ -26,7 +26,10 @@ src<br>      |-------born_again_dp<br>     |-------resources<br>
 #### src\born_again_dp:
 
 * This folder contains the C++ implementation of the optimal and heuristic BA-Tree algorithms.
+* This folder contains also the C++ implementation of optimal and heuristic local explanation using BA-Tree algorithm.
 * This folder also contains a bash script (runAllDatasets.sh) which can be executed to run the algorithm on all datasets, folds, for all objective functions, and considering a different number of trees as input. The results of this script are stored in the folder src\output. Due to the number of datasets and tests, this experiment requires some CPU time (approximately 24h).
+* This folder also contains a bash script (runOptimal.sh) which can be executed to run the optimal algorithm on all datasets for some given instance and depth, folds, for depth objective functions. The results of this script are stored in the folder src\outputDeter. Due to the number of datasets and tests, this experiment requires some CPU time.
+* This folder also contains a bash script (runHeuristic.sh) which can be executed to run the Heuristic approach on all datasets for some given instance and depth, folds, for depth objective functions. The results of this script are stored in the folder src\outputHeuristic. Due to the number of datasets and tests, this experiment requires some CPU time.
 
 #### src\resources
 
@@ -46,25 +49,18 @@ To compile with CPLEX and guarantee faithfulness in the heuristic, make sure tha
 
 ### Using the C++ algorithm
 
-After compilation, the executable can be directly run on any input file representing a tree ensemble with the following command line:
+After compilation, the executable can be directly run on any input file representing a tree ensemble for a giving instance picked from the dataset with the following command line:
 
 ```
 Usage:
-   ./bornAgain input_ensemble_path output_BAtree_path [list of options]
+   ./bornAgain input_ensemble_path output_BAtree_path -obj 0 -instance instance [list of options]
 Available options:
-  -obj X	       Objective used in the algorithm: 0 = Depth ; 1 = NbLeaves ; 2 = Depth then NbLeaves ; 4 = Heuristic BA-Tree (defaults to 4)
-  -trees X      Limits the number of trees read by the algorithm from the input file (X in 3 to 10, defaults to 10)
-  -seed X       Defines the random seed (defaults to 1)
+  -depth X	     Number used to control the maximal depth of the resulting tree
+  -method X      Method used in the algorithm: 1 = Optimal ; 0 = Heuristic (defaults to 0)
 ```
 Examples: <br>
-`./bornAgain ../resources/forests/FICO/FICO.RF1.txt my_output_file`<br>
-`./bornAgain ../resources/forests/COMPAS-ProPublica/COMPAS-ProPublica.RF7.txt my_output_file -trees 4 -obj 2`
-
-### Running the Jupyter Example
-
-The "docs" folder contains a jupyter notebook called illustrative_example.ipynb. This notebook contains a working example of the code pipeline, including some visualization and evaluation scripts.
-
-![Getting Started GIF](docs/Notebook.gif)
+`./bornAgain ../resources/forests/FICO/FICO.RF1.txt new_method -obj 0 -depth 9 -instance 1.0,1.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 -method 1`<br>
+`./bornAgain ../resources/forests/Breast-Cancer-Wisconsin/Breast-Cancer-Wisconsin.RF1.txt new_method -obj 0 -depth 5 -instance 5.0,10.0,6.0,1.0,10.0,4.0,4.0,10.0,10.0`
 
 ## Contributing
 
@@ -74,12 +70,11 @@ If you wish to contribute to this project, e.g;, to the code, portability or int
 
 Contributors to this code:
 * <a href="https://github.com/vidalt" target="_blank">`Thibaut Vidal`</a>
-* <a href="https://github.com/toni-tsp" target="_blank">`Toni Pacheco`</a>
-* <a href="https://github.com/mxschffr" target="_blank">`Maximilian Schiffer`</a>
+* <a href="https://github.com/youssouf1994" target="_blank">`Youssouf Emine`</a>
+* <a href="https://github.com/Zakaria010" target="_blank">`Zakaria El Kassimi`</a>
 
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © Thibaut Vidal, Toni Pacheco and Maximilian Schiffer

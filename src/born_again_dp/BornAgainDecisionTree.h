@@ -71,6 +71,7 @@ private:
 	std::vector<std::pair<std::pair<int,int>, double>> usefulRegions;
 	std::vector<std::vector<double>> hyperplanes;
 	std::vector<std::map<double,double>> hyperplanes_Importance;
+	std::vector<std::map<double,double>> hyperplanes_Importance_sum;
 	std::vector<std::pair<int, double>> featureImportance;
 
 	// Born-again tree produced by the algorithm, using the same internal representation as scikit-learn

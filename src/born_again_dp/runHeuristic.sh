@@ -4,7 +4,7 @@ for n in FICO COMPAS-ProPublica HTRU2 Pima-Diabetes Seeds Breast-Cancer-Wisconsi
 do
 mkdir ../outputHeuristic/${n}
 done
-for n in FICO COMPAS-ProPublica HTRU2 Pima-Diabetes Seeds Breast-Cancer-Wisconsin
+for n in FICO
 do
 for u in {1..10}
 do
@@ -17,7 +17,6 @@ trimmed_line=$(echo "$line" | sed 's/,[^,]*$//')
 ./bornAgain ../resources/forests/$n/${n}.RF$u.txt ../outputHeuristic/${n}/${n}.BA$u.D7  -obj 0 -depth 7 -instance $trimmed_line &
 ./bornAgain ../resources/forests/$n/${n}.RF$u.txt ../outputHeuristic/${n}/${n}.BA$u.D6  -obj 0 -depth 6 -instance $trimmed_line &
 ./bornAgain ../resources/forests/$n/${n}.RF$u.txt ../outputHeuristic/${n}/${n}.BA$u.D5  -obj 0 -depth 5 -instance $trimmed_line &
-./bornAgain ../resources/forests/$n/${n}.RF$u.txt ../outputHeuristic/${n}/${n}.BA$u.D4  -obj 0 -depth 4 -instance $trimmed_line &
 wait
 done
 #done

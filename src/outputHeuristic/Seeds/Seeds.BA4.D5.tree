@@ -1,0 +1,16 @@
+DATASET_NAME: Seeds.train4.csv
+ENSEMBLE: BA
+NB_TREES: 1
+NB_FEATURES: 7
+NB_CLASSES: 3
+MAX_TREE_DEPTH: 1
+Bottom Vector : 2, 0, 0, 2, 0, 0, 1
+Top Vector : 3, 5, 3, 2, 4, 4, 5
+Gain: 21.6392
+Format: node / node type(LN - leave node, IN - internal node) left child / right child / feature / threshold / node_depth / majority class (starts with index 0)
+
+[TREE 0]
+NB_NODES: 3
+0 IN 1 2 6 6.5 0 -1
+1 LN -1 -1 -1 -1 1 0
+2 LN -1 -1 -1 -1 1 1

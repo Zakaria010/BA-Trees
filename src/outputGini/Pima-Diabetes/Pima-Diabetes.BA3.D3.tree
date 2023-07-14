@@ -1,0 +1,24 @@
+DATASET_NAME: Pima-Diabetes.train3.csv
+ENSEMBLE: BA
+NB_TREES: 1
+NB_FEATURES: 8
+NB_CLASSES: 2
+MAX_TREE_DEPTH: 3
+Bottom Vector : 1, 8, 2, 0, 0, 0, 0, 0
+Top Vector : 1, 8, 5, 4, 2, 7, 1, 8
+Gain: 49.936
+Format: node / node type(LN - leave node, IN - internal node) left child / right child / feature / threshold / node_depth / majority class (starts with index 0)
+
+[TREE 0]
+NB_NODES: 11
+0 IN 1 6 2 5.5 0 -1
+1 IN 2 5 5 3.5 1 -1
+2 IN 3 4 7 0.5 2 -1
+3 LN -1 -1 -1 -1 3 0
+4 LN -1 -1 -1 -1 3 1
+5 LN -1 -1 -1 -1 2 1
+6 IN 7 10 5 3.5 1 -1
+7 IN 8 9 7 2.5 2 -1
+8 LN -1 -1 -1 -1 3 0
+9 LN -1 -1 -1 -1 3 1
+10 LN -1 -1 -1 -1 2 1

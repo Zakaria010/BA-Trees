@@ -275,7 +275,7 @@ double BornAgainDecisionTree::computeBestRegion(Region * r, int d)
 	finalLeaves = 0;
 	finalDepth = 0;
 
-	hyperplanes = r->localHyperplanes;
+	hyperplanes = randomForest->getHyperplanes();
 	// Initialize the cells structures and keep useful hyperplanes
 	fspaceOriginal.initializeCells(hyperplanes,false);
 	// fspaceFinal.initializeCells(fspaceOriginal.exportUsefulHyperplanes(),true);
@@ -289,6 +289,7 @@ double BornAgainDecisionTree::computeBestRegion(Region * r, int d)
 		gains[index] = std::vector<double>(fspaceFinal.keyToHash(index,fspaceFinal.nbCells-1)+1,INT_MIN);
 	}
 	// Get hyperplanes importance
+	hyperplanes_Importance_sum = std::vector<std::map<double,double>>(params->nbFeatures);
 	hyperplanes_Importance = calculateFeatureLevelImportance(r->BottomV);
 	instance = fspaceFinal.cellToKey(r->Bottom);
 	auto solution = solver(0,fspaceFinal.nbCells-1,d);
@@ -354,15 +355,27 @@ std::vector<std::map<double, double>> BornAgainDecisionTree::calculateFeatureLev
     }
 	// Multiply splitValueImportance by distance
     for (int splitFeature = 0; splitFeature < params->nbFeatures; ++splitFeature) {
-        double featureImportanceSum = 0.0;
+    	double featureImportanceSum = 0.0;
+    	double lastLevel = 0.0;
 
     	for (auto& entry : splitValueImportance[splitFeature]) {
     	    double distance = std::exp(-std::abs(inputVector[splitFeature] - entry.first));
     	    entry.second *= distance;
     	    featureImportanceSum += entry.second;
+
+    	    if (lastLevel == 0.0) {
+    	        hyperplanes_Importance_sum[splitFeature][entry.first] = entry.second;
+    	    } else {
+    	        hyperplanes_Importance_sum[splitFeature][entry.first] = entry.second + hyperplanes_Importance_sum[splitFeature][lastLevel];
+    	    }
+
+    	    lastLevel = entry.first;
+    	    //std::cout << "Feature: " << splitFeature << " - Level: " << entry.first <<" lastlevel : "<<lastLevel<< " - Importance sum: " << hyperplanes_Importance_sum[splitFeature][entry.first] << " - Importance: " << entry.second << std::endl;
     	}
+
     	featureImportance.emplace_back(splitFeature, featureImportanceSum);
-    }
+	}	
+
 	std::sort(featureImportance.begin(), featureImportance.end(),
               [](const std::pair<int, double>& a, const std::pair<int, double>& b) {
                   return a.second > b.second;
@@ -391,6 +404,7 @@ double BornAgainDecisionTree::computeSecondRegion(Region * r, int d)
 		regions[index] = std::vector<unsigned int>(fspaceFinal.keyToHash(index,fspaceFinal.nbCells-1)+1,UINT_MAX);
 	}
 	// Get hyperplanes importance
+	hyperplanes_Importance_sum = std::vector<std::map<double,double>>(params->nbFeatures);
 	hyperplanes_Importance = calculateFeatureLevelImportance(r->BottomV);
 
 	// Create index of the region bottom and top
@@ -431,7 +445,7 @@ void BornAgainDecisionTree::solve(Region * r, int d)
 {
 	if(depthh> d) return;
 	for(int s=0 ; s<r->nbFeatures;s++){
-		int k = featureImportance[0].first;
+		int k = featureImportance[s].first;
 		int i = r->Bottom[k];
 		if(i>0){
 			r->Bottom[k] -= 1;
@@ -478,9 +492,10 @@ void BornAgainDecisionTree::solve(Region * r, int d)
 }
 
 std::pair<std::pair<int,int>, double> BornAgainDecisionTree::solver(int indexBottom, int indexTop, int maxDepth){
-	// Create index of the region bottom and top
-	if( indexTop==indexBottom) return std::make_pair(std::make_pair(indexBottom, indexTop), INT_MIN);  
-	if(instance<indexBottom || instance>=indexTop) return std::make_pair(std::make_pair(indexBottom, indexTop), INT_MIN);
+	for (int i = 0; i<params->nbFeatures;i++){
+		if ((fspaceFinal.keyToCell(indexBottom,i)>fspaceFinal.keyToCell(instance,i)) || (fspaceFinal.keyToCell(instance,i)> fspaceFinal.keyToCell(indexTop,i)) )
+			return std::make_pair(std::make_pair(indexBottom, indexTop), INT_MIN);
+	}
 	depthh = dynamicProgrammingOptimizeDepth(indexBottom,indexTop);
 	if(depthh == 0) return std::make_pair(std::make_pair(indexBottom, indexTop), INT_MIN);
 	if(depthh<=maxDepth) {
@@ -499,9 +514,8 @@ std::pair<std::pair<int,int>, double> BornAgainDecisionTree::solver(int indexBot
 			Bottom = Region::getCell(BottomV,hyperplanes, params->nbFeatures);
 			Top = Region::getCell(TopV,hyperplanes,params->nbFeatures);
 			for(int i = 0; i<params->nbFeatures; i++){
-				for(int j= Bottom[i];j<Top[i];j++){
-					gain += hyperplanes_Importance[i][hyperplanes[i][j]];
-				}
+				gain +=hyperplanes_Importance[i][hyperplanes[i][Bottom[i]]] +hyperplanes_Importance_sum[i][hyperplanes[i][Top[i]-1]]-hyperplanes_Importance_sum[i][hyperplanes[i][Bottom[i]]];;
+	
 			}
 			gains[indexBottom][hash] = gain;
 			return std::make_pair(std::make_pair(indexBottom, indexTop), gain);
